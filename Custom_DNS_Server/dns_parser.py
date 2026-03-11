@@ -1,56 +1,53 @@
+import struct
+
+
 def parse_dns_query(data):
 
     transaction_id = data[:2]
 
     index = 12
-
-    labels = []
+    domain_parts = []
 
     while True:
-
         length = data[index]
-
         if length == 0:
-
             break
 
         index += 1
-
-        labels.append(data[index:index+length].decode())
-
+        domain_parts.append(data[index:index+length].decode())
         index += length
 
-    domain = ".".join(labels)
+    domain = ".".join(domain_parts)
 
     return transaction_id, domain
 
 
 def build_dns_response(transaction_id, query_data, ip):
 
+    # DNS header
     header = transaction_id
+    header += b'\x81\x80'  # flags
+    header += b'\x00\x01'  # questions
+    header += b'\x00\x01'  # answers
+    header += b'\x00\x00'  # authority
+    header += b'\x00\x00'  # additional
 
-    header += b'\x81\x80'
+    # Extract question section properly
+    index = 12
 
-    header += b'\x00\x01'
+    while query_data[index] != 0:
+        index += 1
 
-    header += b'\x00\x01'
+    index += 5  # null byte + qtype + qclass
 
-    header += b'\x00\x00'
+    question = query_data[12:index]
 
-    header += b'\x00\x00'
-
-    question = query_data[12:]
-
-    answer = b'\xc0\x0c'
-
-    answer += b'\x00\x01'
-
-    answer += b'\x00\x01'
-
-    answer += b'\x00\x00\x00\x3c'
-
-    answer += b'\x00\x04'
-
+    # Answer section
+    answer = b'\xc0\x0c'  # pointer to domain name
+    answer += b'\x00\x01'  # type A
+    answer += b'\x00\x01'  # class IN
+    answer += b'\x00\x00\x00\x3c'  # TTL
+    answer += b'\x00\x04'  # data length
     answer += bytes(map(int, ip.split(".")))
 
     return header + question + answer
