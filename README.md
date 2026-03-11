@@ -25,7 +25,7 @@ Performance benchmarking
 Configurable local DNS records
 
 System Architecture
-
+```
 +-----------+
 |  Client   |
 |  (dig)    |
@@ -52,7 +52,7 @@ custom_dns_server_project
 ├── performance_test.py
 ├── records.json
 └── README.md
-
+```
 File Description
 File	Description
 dns_server.py	Main DNS server implementation
