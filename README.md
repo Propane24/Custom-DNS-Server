@@ -3,25 +3,17 @@ Custom DNS Server (UDP Socket Programming)
 
 
 
-
-
 A lightweight DNS server implemented using UDP sockets.
 This project demonstrates low-level networking concepts, DNS packet parsing, and concurrent client handling.
 
 Features
 
 UDP socket DNS server
-
 DNS packet parsing
-
 Local domain resolution
-
 Recursive DNS query forwarding
-
 Multi-client support using threads
-
 Performance benchmarking
-
 Configurable local DNS records
 
 System Architecture
@@ -43,7 +35,9 @@ System Architecture
 Local DNS       Forward Query
 (records.json)  to Google DNS
                 (8.8.8.8)
+```
 
+```
 Project Structure
 custom_dns_server_project
 │
@@ -53,7 +47,7 @@ custom_dns_server_project
 ├── records.json
 └── README.md
 ```
-File Description
+
 File	Description
 dns_server.py	Main DNS server implementation
 dns_parser.py	DNS packet parsing and response generation
