@@ -36,9 +36,9 @@ Local DNS       Forward Query
 (records.json)  to Google DNS
                 (8.8.8.8)
 ```
-
-```
 Project Structure
+```
+
 custom_dns_server_project
 │
 ├── dns_server.py
